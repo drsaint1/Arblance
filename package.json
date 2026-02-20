@@ -1,0 +1,42 @@
+{
+  "name": "arblance-monorepo",
+  "version": "1.0.0",
+  "description": "ArbLance - Decentralized Freelancing Platform on Arbitrum with Smart Contracts",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev\" --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,magenta\"",
+    "build": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "start": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "compile": "npx hardhat compile",
+    "node": "npx hardhat node",
+    "deploy:local": "npx hardhat run scripts/deploy-all-arbitrum.js --network localhost",
+    "deploy:arbitrum": "npx hardhat run scripts/deploy-all-arbitrum.js --network arbitrumSepolia",
+    "test": "npx hardhat test",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules frontend/.next"
+  },
+  "keywords": [
+    "blockchain",
+    "freelance",
+    "web3",
+    "decentralized",
+    "nft",
+    "escrow"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@types/node": "^20.10.0",
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.2.3",
+    "hardhat": "^2.27.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1"
+  }
+}
