@@ -148,7 +148,7 @@ export default function PostJobPage() {
           { value: budgetWei }
         );
       } else {
-        // ERC20 token payment (approval already done)
+        // ERC20 token payment
         const token = availableTokens.find(t => t.address === formData.paymentToken);
         if (!token) throw new Error("Token not found");
 

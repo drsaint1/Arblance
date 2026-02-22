@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Briefcase, Twitter, Github, Mail, Heart, ExternalLink } from "lucide-react";
+import { Briefcase, Twitter, Github, Mail, ExternalLink } from "lucide-react";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -30,26 +30,26 @@ export const Footer: React.FC = () => {
   const socialLinks = [
     {
       name: "Twitter",
-      href: "https://twitter.com/arblance",
+      href: "https://twitter.com/deaneries_",
       icon: Twitter,
       color: "hover:text-blue-400",
     },
     {
       name: "GitHub",
-      href: "https://github.com/arblance",
+      href: "https://github.com/drsaint1",
       icon: Github,
       color: "hover:text-gray-900",
     },
     {
       name: "Email",
-      href: "mailto:hello@arblance.io",
+      href: "mailto:enrichaintl@gmail.com",
       icon: Mail,
       color: "hover:text-red-400",
     },
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white mt-20">
+    <footer className="bg-gray-900 text-white mt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-cyan-400">Company</h3>
+            <h3 className="font-semibold text-lg mb-4 text-blue-400">Company</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -131,7 +131,7 @@ export const Footer: React.FC = () => {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-green-400">Legal</h3>
+            <h3 className="font-semibold text-lg mb-4 text-blue-400">Legal</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
@@ -185,9 +185,6 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
               © {currentYear} ArbLance. All rights reserved.
-            </p>
-            <p className="text-gray-400 text-sm flex items-center">
-              Made with <Heart className="h-4 w-4 mx-1 text-red-500 fill-current" /> by the ArbLance Team
             </p>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
               <span>Powered by Arbitrum</span>

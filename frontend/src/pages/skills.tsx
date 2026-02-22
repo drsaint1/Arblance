@@ -7,6 +7,10 @@ import { SkillCategory, SkillCategoryNames } from "@/types";
 import { Award, CheckCircle, Circle, ChevronLeft, ChevronRight, Trophy, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { badgeApi } from "@/services/api.service";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 type SkillTest = { questions: Array<{ q: string; options: string[]; correct: number }> };
 
@@ -150,6 +154,8 @@ export default function SkillsPage() {
   const [minting, setMinting] = useState(false);
   const [userSkills, setUserSkills] = useState<Set<SkillCategory>>(new Set());
   const [direction, setDirection] = useState(0); // For animation direction
+  const [activeQuestions, setActiveQuestions] = useState<SkillTest["questions"] | null>(null);
+  const [loadingQuiz, setLoadingQuiz] = useState(false);
 
   useEffect(() => {
     loadUserSkills();
@@ -179,7 +185,7 @@ export default function SkillsPage() {
     }
   };
 
-  const startTest = (skill: SkillCategory) => {
+  const startTest = async (skill: SkillCategory) => {
     setSelectedSkill(skill);
     setCurrentQuestion(0);
     setAnswers([]);
@@ -187,6 +193,23 @@ export default function SkillsPage() {
     setTestComplete(false);
     setScore(0);
     setDirection(0);
+    setLoadingQuiz(true);
+
+    try {
+      const skillName = SkillCategoryNames[skill];
+      const res = await axios.post(`${API_URL}/ai/generate/skill-quiz`, { skillName });
+      if (res.data.success && res.data.questions.length === 5) {
+        setActiveQuestions(res.data.questions);
+        setLoadingQuiz(false);
+        return;
+      }
+    } catch (error) {
+      console.warn("AI quiz generation failed, using fallback questions");
+    }
+
+    // Fallback to hardcoded questions
+    setActiveQuestions(skillTests[skill]?.questions || skillTests[SkillCategory.Other].questions);
+    setLoadingQuiz(false);
   };
 
   const handleSelectAnswer = (answerIndex: number) => {
@@ -203,9 +226,9 @@ export default function SkillsPage() {
       setSelectedAnswer(answers[currentQuestion + 1] ?? null);
     } else {
       // Calculate score and complete test
-      const test = skillTests[selectedSkill!];
+      const questions = activeQuestions!;
       const correctCount = answers.filter(
-        (ans, idx) => ans === test.questions[idx].correct
+        (ans, idx) => ans === questions[idx].correct
       ).length;
       const finalScore = (correctCount / 5) * 100;
       setScore(finalScore);
@@ -222,20 +245,36 @@ export default function SkillsPage() {
   };
 
   const mintBadge = async () => {
-    if (!skillBadgesContract || !selectedSkill) return;
+    if (selectedSkill === null || !account) {
+      toast.error("Wallet not connected");
+      return;
+    }
 
     try {
       setMinting(true);
-      // In production, this should be called from a backend or the contract owner
-      // For demo purposes, we're assuming the user can mint (this would fail without owner access)
-      toast("Badge minting requires contract owner approval. In production, this would be handled by the platform.");
+      const skillName = SkillCategoryNames[selectedSkill];
+      toast.loading("Minting badge on-chain...", { id: "mint" });
 
-      // Simulated badge minting
-      setUserSkills(new Set([...userSkills, selectedSkill]));
-      setSelectedSkill(null);
+      const result = await badgeApi.mintBadge({
+        recipientAddress: account,
+        skillName,
+        category: selectedSkill,
+        score,
+      });
+      toast.dismiss("mint");
+
+      if (result.success) {
+        toast.success(`Badge minted! TX: ${result.txHash?.slice(0, 10)}...`);
+        setUserSkills(new Set([...userSkills, selectedSkill]));
+        setSelectedSkill(null);
+      } else {
+        toast.error(result.error || "Failed to mint badge");
+      }
     } catch (error: any) {
+      toast.dismiss("mint");
       console.error("Error minting badge:", error);
-      toast.error(error.message || "Failed to mint badge");
+      const msg = error?.response?.data?.error || error?.response?.data?.message || error.message || "Failed to mint badge";
+      toast.error(msg);
     } finally {
       setMinting(false);
     }
@@ -383,7 +422,18 @@ export default function SkillsPage() {
             </CardHeader>
 
             <CardContent className="p-8">
-              {!testComplete ? (
+              {loadingQuiz ? (
+                <div className="flex flex-col items-center justify-center py-16 space-y-4">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Target className="h-10 w-10 text-blue-500" />
+                  </motion.div>
+                  <p className="text-gray-600 font-medium">Generating AI-powered questions...</p>
+                  <p className="text-sm text-gray-400">Tailored to test your real skills</p>
+                </div>
+              ) : !testComplete ? (
                 <div className="space-y-6">
                   {/* Question Navigation Dots */}
                   <div className="flex justify-center gap-2 mb-6">
@@ -413,13 +463,13 @@ export default function SkillsPage() {
                     >
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg mb-6">
                         <h3 className="text-xl font-semibold text-gray-800">
-                          {skillTests[selectedSkill].questions[currentQuestion].q}
+                          {activeQuestions![currentQuestion].q}
                         </h3>
                       </div>
 
                       {/* Answer Options */}
                       <div className="space-y-3">
-                        {skillTests[selectedSkill].questions[currentQuestion].options.map(
+                        {activeQuestions![currentQuestion].options.map(
                           (option, idx) => (
                             <motion.div
                               key={idx}

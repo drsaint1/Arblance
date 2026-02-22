@@ -118,3 +118,26 @@ export const generateReviewSuggestions = async (req: Request, res: Response) => 
     });
   }
 };
+
+export const generateSkillQuiz = async (req: Request, res: Response) => {
+  try {
+    const { skillName } = req.body;
+
+    if (!skillName || typeof skillName !== 'string') {
+      return res.status(400).json({ error: 'Skill name is required' });
+    }
+
+    const questions = await aiService.generateSkillQuiz(skillName);
+
+    if (questions.length === 0) {
+      return res.status(200).json({ success: true, questions: [], ai: false });
+    }
+
+    res.json({ success: true, questions, ai: true });
+  } catch (error: any) {
+    console.error('Error generating skill quiz:', error);
+    res.status(500).json({
+      error: error.message || 'Failed to generate quiz',
+    });
+  }
+};

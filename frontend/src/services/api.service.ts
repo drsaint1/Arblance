@@ -138,4 +138,22 @@ export const escrowApi = {
   },
 };
 
+// Badge API
+export const badgeApi = {
+  mintBadge: async (data: {
+    recipientAddress: string;
+    skillName: string;
+    category: number;
+    score: number;
+  }) => {
+    const response = await apiClient.post('/badges/mint', data);
+    return response.data;
+  },
+
+  checkSkill: async (address: string, category: number) => {
+    const response = await apiClient.get(`/badges/check/${address}/${category}`);
+    return response.data;
+  },
+};
+
 export default apiClient;

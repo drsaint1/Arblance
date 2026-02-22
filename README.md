@@ -16,7 +16,29 @@ A fully decentralized freelancing platform built on **Arbitrum** with smart cont
 - **Real-time Chat** - Firebase-powered messaging
 - **AI Suggestions** - Gemini-powered job recommendations
 
-## Deployed Contracts (Arbitrum Sepolia)
+## Deployed Contracts (Arbitrum One - Mainnet)
+
+| Contract | Address |
+|----------|---------|
+| FreelanceMarketplace | [`0x7292c3Bef25159Fb4119A8CF48AAa027596C7fFD`](https://arbiscan.io/address/0x7292c3Bef25159Fb4119A8CF48AAa027596C7fFD) |
+| SkillBadges | [`0xFc4EDCF2CA8068b2A750Ad4507297aba0807CdC5`](https://arbiscan.io/address/0xFc4EDCF2CA8068b2A750Ad4507297aba0807CdC5) |
+| JobBadges | [`0x962A00d762692F8692B90914577d5191e79a514b`](https://arbiscan.io/address/0x962A00d762692F8692B90914577d5191e79a514b) |
+| EscrowPayment | [`0x9F881e3A5F4Fc1621D3CC2fDc187E8302dc50A96`](https://arbiscan.io/address/0x9F881e3A5F4Fc1621D3CC2fDc187E8302dc50A96) |
+| EscrowPaymentToken | [`0x4F64da35DA275fC052a01a78603500e592059Cb9`](https://arbiscan.io/address/0x4F64da35DA275fC052a01a78603500e592059Cb9) |
+| DisputeResolution | [`0xdc36c3251e56b635a9B4F188389764Cd235939d2`](https://arbiscan.io/address/0xdc36c3251e56b635a9B4F188389764Cd235939d2) |
+
+**Network:** Arbitrum One (Chain ID: 42161)
+
+**Supported Tokens:**
+
+| Token | Address |
+|-------|---------|
+| ETH | Native |
+| USDT | [`0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9`](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9) |
+| USDC | [`0xaf88d065e77c8cC2239327C5EDb3A432268e5831`](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831) |
+
+<details>
+<summary>Testnet Contracts (Arbitrum Sepolia)</summary>
 
 | Contract | Address |
 |----------|---------|
@@ -28,6 +50,8 @@ A fully decentralized freelancing platform built on **Arbitrum** with smart cont
 | DisputeResolution | [`0xAeE0640726c7225053F1Bd65fB72A0bD23F0a80E`](https://sepolia.arbiscan.io/address/0xAeE0640726c7225053F1Bd65fB72A0bD23F0a80E) |
 
 **Network:** Arbitrum Sepolia (Chain ID: 421614)
+
+</details>
 
 ## Tech Stack
 
@@ -60,7 +84,8 @@ Add your `PRIVATE_KEY`, `MONGODB_URI`, and other config values.
 
 ```bash
 npm run compile
-npm run deploy:arbitrum
+npm run deploy:testnet    # Arbitrum Sepolia
+npm run deploy:mainnet    # Arbitrum One
 ```
 
 ### 4. Run

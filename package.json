@@ -14,7 +14,8 @@
     "compile": "npx hardhat compile",
     "node": "npx hardhat node",
     "deploy:local": "npx hardhat run scripts/deploy-all-arbitrum.js --network localhost",
-    "deploy:arbitrum": "npx hardhat run scripts/deploy-all-arbitrum.js --network arbitrumSepolia",
+    "deploy:testnet": "npx hardhat run scripts/deploy-all-arbitrum.js --network arbitrumSepolia",
+    "deploy:mainnet": "npx hardhat run scripts/deploy-all-arbitrum.js --network arbitrumOne",
     "test": "npx hardhat test",
     "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
     "clean": "rm -rf node_modules frontend/node_modules backend/node_modules frontend/.next"

@@ -185,6 +185,51 @@ export const aiService = {
     }
   },
 
+  async generateSkillQuiz(skillName: string): Promise<Array<{ q: string; options: string[]; correct: number }>> {
+    if (!isAIAvailable || !model) {
+      return [];
+    }
+
+    try {
+      const prompt = `Generate 5 multiple-choice quiz questions to test someone's knowledge of "${skillName}".
+
+Each question should:
+- Be a real, practical question that tests actual skill knowledge
+- Have exactly 4 options
+- Have exactly 1 correct answer
+- Range from intermediate to advanced difficulty
+- Be different each time (randomize topics within the skill)
+
+Return ONLY valid JSON array, no markdown, no code fences. Format:
+[{"q":"question text","options":["A","B","C","D"],"correct":0}]
+
+Where "correct" is the 0-based index of the correct option. Randomize which index is correct — don't always put the answer first.`;
+
+      const result = await model.generateContent(prompt);
+      const text = result.response.text().trim();
+
+      // Strip markdown code fences if present
+      const cleaned = text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim();
+      const questions = JSON.parse(cleaned);
+
+      if (!Array.isArray(questions) || questions.length < 5) {
+        return [];
+      }
+
+      // Validate structure
+      for (const q of questions) {
+        if (!q.q || !Array.isArray(q.options) || q.options.length !== 4 || typeof q.correct !== 'number' || q.correct < 0 || q.correct > 3) {
+          return [];
+        }
+      }
+
+      return questions.slice(0, 5);
+    } catch (error) {
+      console.error('Error generating skill quiz:', error);
+      return [];
+    }
+  },
+
   async generateReviewSuggestions(rating: number, jobType: string): Promise<string[]> {
     if (!isAIAvailable || !model) {
       if (rating >= 4) {

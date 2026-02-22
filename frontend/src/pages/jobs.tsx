@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Job, SkillCategoryNames, JobStatusNames, BadgeTierNames } from "@/types";
-import { formatEther, formatDate } from "@/lib/utils";
+import { formatEther, formatDate, formatTokenAmount, getTokenSymbol } from "@/lib/utils";
 import { Briefcase, DollarSign, Calendar, Search, ArrowRight, Eye, Award } from "lucide-react";
 
 export default function JobsPage() {
@@ -163,7 +163,7 @@ export default function JobsPage() {
                         >
                           <div className="flex items-center text-2xl font-bold text-blue-600">
                             <DollarSign className="h-6 w-6" />
-                            {formatEther(job.budget)} ETH
+                            {formatTokenAmount(job.budget, job.paymentToken)} {getTokenSymbol(job.paymentToken)}
                           </div>
                         </motion.div>
                       </div>

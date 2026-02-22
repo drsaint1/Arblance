@@ -17,7 +17,7 @@
   - [EscrowPaymentToken](#5-escrowpaymenttokensol)
   - [DisputeResolution](#6-disputeresolutionsol)
 - [Contract Interaction Diagram](#contract-interaction-diagram)
-- [Deployed Contracts (Arbitrum Sepolia)](#deployed-contracts-arbitrum-sepolia)
+- [Deployed Contracts](#deployed-contracts)
 - [Frontend](#frontend)
   - [Pages](#pages)
   - [Components](#components)
@@ -39,7 +39,7 @@
 
 ## Overview
 
-ArbLance is a fully decentralized freelancing platform built on **Arbitrum Sepolia** (Layer 2). It enables clients and freelancers to connect, collaborate, and transact securely using smart contracts. The platform features:
+ArbLance is a fully decentralized freelancing platform built on **Arbitrum One** (Layer 2). It enables clients and freelancers to connect, collaborate, and transact securely using smart contracts. The platform features:
 
 - Smart contract-based escrow for secure payments
 - Soulbound NFT skill badges with tiered progression
@@ -59,7 +59,7 @@ ArbLance is a fully decentralized freelancing platform built on **Arbitrum Sepol
 ```
 +---------------------+     +---------------------+     +---------------------+
 |     Frontend        |     |      Backend         |     |    Blockchain       |
-|   (Next.js + TS)    |<--->|   (Express + Node)   |<--->|  (Arbitrum Sepolia) |
+|   (Next.js + TS)    |<--->|   (Express + Node)   |<--->|   (Arbitrum One)    |
 |                     |     |                      |     |                     |
 | - Pages & Components|     | - REST API           |     | - FreelanceMarket.  |
 | - Web3Context       |     | - Socket.IO          |     | - SkillBadges       |
@@ -70,7 +70,7 @@ ArbLance is a fully decentralized freelancing platform built on **Arbitrum Sepol
                                                           +---------------------+
 ```
 
-**On-Chain (Arbitrum Sepolia):** Job posting, escrow, badge minting, tier upgrades, dispute resolution, payments
+**On-Chain (Arbitrum One):** Job posting, escrow, badge minting, tier upgrades, dispute resolution, payments
 
 **Off-Chain (Backend + Firebase):** User profiles, messaging, notifications, AI suggestions, activity tracking, ratings
 
@@ -366,9 +366,9 @@ enum PaymentToken { ETH, USDT, USDC, CUSTOM }
 constructor(address _usdtAddress, address _usdcAddress)
 ```
 
-**Deployed with:**
-- USDT: `0xEf54C221Fc94517877F0F40eCd71E0A3866D66C2`
-- USDC: `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d`
+**Deployed with (Arbitrum One):**
+- USDT: `0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9`
+- USDC: `0xaf88d065e77c8cC2239327C5EDb3A432268e5831`
 
 **Events:**
 - `ContractCreated(uint256 indexed contractId, address indexed creator, address indexed recipient, uint256 totalAmount, uint256 milestoneCount, PaymentToken tokenType, address tokenAddress)`
@@ -496,7 +496,31 @@ struct Dispute {
 
 ---
 
-## Deployed Contracts (Arbitrum Sepolia)
+## Deployed Contracts
+
+### Arbitrum One (Mainnet)
+
+| Contract | Address | Arbiscan |
+|----------|---------|----------|
+| SkillBadges | `0xFc4EDCF2CA8068b2A750Ad4507297aba0807CdC5` | [View](https://arbiscan.io/address/0xFc4EDCF2CA8068b2A750Ad4507297aba0807CdC5) |
+| JobBadges | `0x962A00d762692F8692B90914577d5191e79a514b` | [View](https://arbiscan.io/address/0x962A00d762692F8692B90914577d5191e79a514b) |
+| FreelanceMarketplace | `0x7292c3Bef25159Fb4119A8CF48AAa027596C7fFD` | [View](https://arbiscan.io/address/0x7292c3Bef25159Fb4119A8CF48AAa027596C7fFD) |
+| EscrowPayment | `0x9F881e3A5F4Fc1621D3CC2fDc187E8302dc50A96` | [View](https://arbiscan.io/address/0x9F881e3A5F4Fc1621D3CC2fDc187E8302dc50A96) |
+| EscrowPaymentToken | `0x4F64da35DA275fC052a01a78603500e592059Cb9` | [View](https://arbiscan.io/address/0x4F64da35DA275fC052a01a78603500e592059Cb9) |
+| DisputeResolution | `0xdc36c3251e56b635a9B4F188389764Cd235939d2` | [View](https://arbiscan.io/address/0xdc36c3251e56b635a9B4F188389764Cd235939d2) |
+
+**Network:** Arbitrum One
+**Chain ID:** 42161
+**Block Explorer:** https://arbiscan.io
+**Deployer:** `0x76f61EA62C5A8F0b38D820F66DAF546f7Fa6015c`
+
+**Stablecoin Addresses (Arbitrum One):**
+| Token | Address | Arbiscan |
+|-------|---------|----------|
+| USDT | `0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9` | [View](https://arbiscan.io/address/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9) |
+| USDC | `0xaf88d065e77c8cC2239327C5EDb3A432268e5831` | [View](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831) |
+
+### Arbitrum Sepolia (Testnet)
 
 | Contract | Address | Arbiscan |
 |----------|---------|----------|
@@ -510,13 +534,6 @@ struct Dispute {
 **Network:** Arbitrum Sepolia Testnet
 **Chain ID:** 421614
 **Block Explorer:** https://sepolia.arbiscan.io
-**Deployer:** `0x76f61EA62C5A8F0b38D820F66DAF546f7Fa6015c`
-
-**Stablecoin Addresses:**
-| Token | Address |
-|-------|---------|
-| USDT | `0xEf54C221Fc94517877F0F40eCd71E0A3866D66C2` |
-| USDC | `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d` |
 
 ---
 
@@ -646,11 +663,11 @@ UIUXDesign, WebDevelopment, MobileDevelopment, BlockchainDevelopment, DataScienc
 
 ### Supported Tokens
 
-| Token | Address | Decimals |
-|-------|---------|----------|
+| Token | Address (Arbitrum One) | Decimals |
+|-------|------------------------|----------|
 | ETH | Native (address(0)) | 18 |
-| USDT | `0xEf54C221Fc94517877F0F40eCd71E0A3866D66C2` | 6 |
-| USDC | `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d` | 6 |
+| USDT | `0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9` | 6 |
+| USDC | `0xaf88d065e77c8cC2239327C5EDb3A432268e5831` | 6 |
 
 ### Fee Structure
 
@@ -704,6 +721,7 @@ If a client doesn't respond within **7 days** after deliverable submission:
 ```env
 PRIVATE_KEY=your_wallet_private_key
 ARBITRUM_SEPOLIA_RPC_URL=https://sepolia-rollup.arbitrum.io/rpc
+ARBITRUM_ONE_RPC_URL=https://arb1.arbitrum.io/rpc
 ```
 
 ### Backend `.env`
@@ -723,12 +741,28 @@ SMTP_PASS=your_password
 SMTP_FROM=ArbLance <noreply@arblance.io>
 ```
 
-### Frontend `.env.local`
+### Frontend `.env`
 
 ```env
+# "mainnet" for Arbitrum One, "testnet" for Arbitrum Sepolia
+NEXT_PUBLIC_NETWORK_MODE=mainnet
+
 NEXT_PUBLIC_API_URL=http://localhost:5001/api
 NEXT_PUBLIC_SOCKET_URL=http://localhost:5001
-NEXT_PUBLIC_CHAIN_ID=421614
+
+# Contract Addresses (Arbitrum One)
+NEXT_PUBLIC_MARKETPLACE_ADDRESS=0x7292c3Bef25159Fb4119A8CF48AAa027596C7fFD
+NEXT_PUBLIC_SKILL_BADGES_ADDRESS=0xFc4EDCF2CA8068b2A750Ad4507297aba0807CdC5
+NEXT_PUBLIC_JOB_BADGES_ADDRESS=0x962A00d762692F8692B90914577d5191e79a514b
+NEXT_PUBLIC_ESCROW_PAYMENT_ADDRESS=0x9F881e3A5F4Fc1621D3CC2fDc187E8302dc50A96
+NEXT_PUBLIC_ESCROW_PAYMENT_TOKEN_ADDRESS=0x4F64da35DA275fC052a01a78603500e592059Cb9
+NEXT_PUBLIC_DISPUTE_RESOLUTION_ADDRESS=0xdc36c3251e56b635a9B4F188389764Cd235939d2
+
+# Token Addresses (Arbitrum One)
+NEXT_PUBLIC_USDT_ADDRESS=0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9
+NEXT_PUBLIC_USDC_ADDRESS=0xaf88d065e77c8cC2239327C5EDb3A432268e5831
+
+# Firebase (optional)
 NEXT_PUBLIC_FIREBASE_API_KEY=...
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
@@ -803,7 +837,8 @@ arblance/
 
 - Node.js 18+
 - MetaMask or any EVM wallet
-- Arbitrum Sepolia testnet ETH ([Faucet](https://faucet.quicknode.com/arbitrum/sepolia))
+- For testnet: Arbitrum Sepolia ETH ([Faucet](https://faucet.quicknode.com/arbitrum/sepolia))
+- For mainnet: ~$3-5 ETH on Arbitrum One ([Bridge](https://bridge.arbitrum.io))
 
 ### 1. Install Dependencies
 
@@ -829,17 +864,22 @@ cp backend/.env.example backend/.env
 npm run compile
 ```
 
-### 4. Deploy to Arbitrum Sepolia
+### 4. Deploy Contracts
 
 ```bash
-npm run deploy:arbitrum
+# Testnet (Arbitrum Sepolia)
+npm run deploy:testnet
+
+# Mainnet (Arbitrum One) — requires ~$3-5 ETH on Arbitrum
+npm run deploy:mainnet
 ```
 
 This will:
 - Deploy all 6 contracts
-- Save addresses to `deployments/arbitrum-sepolia-latest.json`
-- Generate `frontend/src/config/arbitrum-config.ts`
+- Save addresses to `deployments/<network>-latest.json`
+- Generate `frontend/src/config/<network>-config.ts`
 - Generate `frontend/src/config/contracts.json`
+- Print all `NEXT_PUBLIC_*` env vars to copy into your frontend `.env`
 
 ### 5. Start Development Servers
 

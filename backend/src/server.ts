@@ -16,6 +16,7 @@ import disputeRoutes from './routes/dispute.routes';
 import activityRoutes from './routes/activity.routes';
 import ratingRoutes from './routes/rating.routes';
 import aiRoutes from './routes/ai.routes';
+import badgeRoutes from './routes/badge.routes';
 import { setupSocketHandlers } from './services/socket.service';
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/api/disputes', disputeRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/ratings', ratingRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/badges', badgeRoutes);
 
 setupSocketHandlers(io);
 
@@ -68,17 +70,18 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5001;
 
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 Socket.IO ready for connections`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+});
+
 connectDatabase()
   .then(() => {
-    server.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📡 Socket.IO ready for connections`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-    });
+    console.log('✅ Database ready');
   })
   .catch((error) => {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
+    console.warn('⚠️ MongoDB not available — DB-dependent routes will fail, but blockchain routes will work.');
   });
 
 export { io };

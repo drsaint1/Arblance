@@ -37,6 +37,8 @@ export interface IUser extends Document {
 
   createdAt: Date;
   updatedAt: Date;
+
+  updateRankPoints(): void;
 }
 
 const UserSchema: Schema = new Schema(

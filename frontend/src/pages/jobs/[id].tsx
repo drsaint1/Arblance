@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import ChatBox from "@/components/ChatBox";
 import { RatingModal } from "@/components/RatingModal";
 import { SkillCategoryNames, JobStatusNames } from "@/types";
-import { formatEther, formatDate } from "@/lib/utils";
+import { formatEther, formatDate, formatTokenAmount, getTokenSymbol } from "@/lib/utils";
 import {
   Briefcase,
   Clock,
@@ -62,19 +62,21 @@ export default function JobDetailPage() {
 
     try {
       setLoading(true);
-      const jobData = await marketplaceContract.getJob(id);
+      const jobData = await marketplaceContract.jobs(id);
 
       setJob({
-        id,
-        client: jobData[0],
-        freelancer: jobData[1],
-        title: jobData[2],
-        description: jobData[3],
-        budget: jobData[4],
-        requiredSkill: jobData[5],
-        deadline: jobData[6],
-        status: jobData[7],
-        createdAt: jobData[8],
+        id: jobData.id,
+        client: jobData.client,
+        freelancer: jobData.freelancer,
+        title: jobData.title,
+        description: jobData.description,
+        budget: jobData.budget,
+        paymentToken: jobData.paymentToken,
+        requiredSkill: jobData.requiredSkill,
+        minimumTier: jobData.minimumTier,
+        status: jobData.status,
+        deadline: jobData.deadline,
+        createdAt: jobData.createdAt,
       });
     } catch (error) {
       console.error("Error loading job:", error);
@@ -268,7 +270,7 @@ export default function JobDetailPage() {
                   <DollarSign className="h-8 w-8 text-blue-600" />
                   <div>
                     <p className="text-sm text-gray-600">Budget</p>
-                    <p className="font-bold text-lg">{formatEther(job.budget)} ETH</p>
+                    <p className="font-bold text-lg">{formatTokenAmount(job.budget, job.paymentToken)} {getTokenSymbol(job.paymentToken)}</p>
                   </div>
                 </motion.div>
 
